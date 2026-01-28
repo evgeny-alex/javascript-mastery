@@ -18,7 +18,6 @@ export default function Page() {
       <main>
         <Hero />
         <FeaturesListicle />
-        <Demo />
         <Pricing />
         <FAQ />
         <CTA />
