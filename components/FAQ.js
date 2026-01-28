@@ -2,57 +2,77 @@
 
 import { useRef, useState } from "react";
 
-// добавляем брендовые цвета
-const BRAND_START = "#eb538a";
-const BRAND_END = "#ff930f";
-const SELECTED_COLOR = "#c43b78";
-
-// <FAQ> component is a lsit of <Item> component
-// Just import the FAQ & add your FAQ content to the const faqList
+// daisyUI theme colors
+const BRAND_START = "var(--color-primary)";
+const BRAND_END = "var(--color-secondary)";
+const SELECTED_COLOR = "var(--color-primary)";
 
 const faqList = [
   {
-    question: "What is included in each plan?",
+    question: "What’s included in each plan?",
     answer: (
-      <div className="space-y-2 leading-relaxed">
-        <p className="font-semibold">Workflow — $29</p>
-        <ul className="list-disc pl-5">
-          <li>n8n workflow to run automated PR reviews</li>
-          <li>OpenAI-powered contextual review comments</li>
-          <li>GitHub webhook integration</li>
-        </ul>
-        <p className="font-semibold mt-2">Pro — $49</p>
-        <ul className="list-disc pl-5">
-          <li>Includes all Workflow features</li>
-          <li>Complete step-by-step deployment & configuration guide</li>
-          <li>Free Render hosting setup for an n8n instance (initial setup)</li>
-        </ul>
+      <div className="space-y-4 leading-relaxed">
+        <div className="space-y-2">
+          <p className="font-semibold">Basic — €399</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Access to Modules 1–4 (JavaScript Fundamentals → OOP)</li>
+            <li>Notion guide</li>
+            <li>Exclusive Discord community</li>
+            <li>7-day money-back guarantee</li>
+          </ul>
+        </div>
+
+        <div className="space-y-2">
+          <p className="font-semibold">Pro — €799</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Access to all modules (1–7, including React)</li>
+            <li>Notion guide + Discord community</li>
+            <li>7-day money-back guarantee</li>
+            <li>Interview-ready LeetCode roadmap</li>
+            <li>Frontend-focused System Design structure</li>
+            <li>Behavioral interview preparation</li>
+          </ul>
+        </div>
+
+        <div className="space-y-2">
+          <p className="font-semibold">Bootcamp — €1399 (10 students batch)</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Everything in Pro</li>
+            <li>3 full mock interviews (Coding, System Design, Behavioral)</li>
+            <li>Applying strategy</li>
+            <li>Community & async challenges</li>
+            <li>Up-to-date FAANG-style interview tasks</li>
+            <li>Large private community sharing real interview experience</li>
+          </ul>
+        </div>
       </div>
     ),
   },
   {
-    question: "How does Autonomous Mode work?",
+    question: "Is this course beginner-friendly?",
     answer: (
       <div className="space-y-2 leading-relaxed">
         <p>
-          Autonomous Mode runs the review workflow automatically on PR events
-          (opened/updated). n8n receives the webhook, generates prompts for
-          OpenAI and posts review comments to the PR. You retain control via
-          credentials, sensitivity settings and custom rules.
+          Yes. Modules 1–4 are designed for beginners and build a strong
+          foundation with lots of practice and mini projects. If you already
+          know the basics, you can move faster and focus on Modules 5–7 and
+          interview prep.
         </p>
       </div>
     ),
   },
   {
-    question: "Is hosting really free with Pro?",
+    question: "How does the interview preparation work?",
     answer: (
       <div className="space-y-2 leading-relaxed">
         <p>
-          The Pro plan includes a free initial hosting setup on Render for an
-          n8n instance (deployment + basic uptime). We will also show you how to
-          configure the instance to keep the basic workflow running continuously
-          (avoid automatic sleep). Note that any long-term or over-usage costs
-          from the hosting provider may still apply.
+          Pro and Bootcamp include a structured roadmap for LeetCode (patterns +
+          progression), a frontend-focused System Design structure, and a clear
+          Behavioral framework (STAR + real examples).
+        </p>
+        <p className="opacity-90">
+          Bootcamp adds 3 full mock interviews (Coding, System Design, and
+          Behavioral) plus an applying strategy and async challenges.
         </p>
       </div>
     ),
@@ -62,10 +82,8 @@ const faqList = [
     answer: (
       <div className="space-y-2 leading-relaxed">
         <p>
-          Yes - we recommend offering a short refund window to lower buyer
-          friction. Typical policy: 7 days from purchase. To request a refund,
-          contact support (email shown in site footer or in your config) with
-          your purchase details.
+          Yes — there’s a 7-day money-back guarantee. If the course isn’t a fit,
+          contact support with your purchase details within 7 days of purchase.
         </p>
       </div>
     ),
@@ -79,17 +97,18 @@ const Item = ({ item }) => {
   return (
     <li>
       <button
-        className="relative flex gap-2 items-center w-full py-5 text-base font-semibold text-left border-t md:text-lg border-base-content/10"
+        className="relative flex gap-3 items-center w-full py-5 text-base font-semibold text-left border-t md:text-lg border-base-content/10"
         onClick={(e) => {
           e.preventDefault();
-          setIsOpen(!isOpen);
+          setIsOpen((v) => !v);
         }}
         aria-expanded={isOpen}
         style={isOpen ? { color: SELECTED_COLOR } : undefined}
       >
         <span className="flex-1">{item?.question}</span>
+
         <svg
-          className="flex-shrink-0 w-4 h-4 ml-auto fill-current"
+          className="flex-shrink-0 w-4 h-4 ml-auto fill-current opacity-80"
           viewBox="0 0 16 16"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -116,7 +135,7 @@ const Item = ({ item }) => {
 
       <div
         ref={accordion}
-        className="transition-all duration-300 ease-in-out opacity-80 overflow-hidden"
+        className="transition-all duration-300 ease-in-out overflow-hidden text-base-content/80"
         style={
           isOpen
             ? { maxHeight: accordion?.current?.scrollHeight, opacity: 1 }
@@ -134,18 +153,15 @@ const FAQ = () => {
     <section className="bg-base-200" id="faq">
       <div className="py-24 px-8 max-w-7xl mx-auto flex flex-col md:flex-row gap-12">
         <div className="flex flex-col text-left basis-1/2">
-          <p
-            className="inline-block font-semibold mb-4"
-            style={{
-              background: `linear-gradient(90deg, ${BRAND_START}, ${BRAND_END})`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            FAQ
-          </p>
+          {/* Reliable label: normal color + gradient underline */}
+          <p className="inline-block font-semibold mb-3 text-primary">FAQ</p>
+
           <p className="sm:text-4xl text-3xl font-extrabold text-base-content">
             Frequently Asked Questions
+          </p>
+          <p className="mt-4 text-base-content/70 max-w-md">
+            Everything you need to know about JavaScript Mastery, plans, and
+            interview preparation.
           </p>
         </div>
 
