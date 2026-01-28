@@ -2,38 +2,6 @@ import Link from "next/link";
 import { getSEOTags } from "@/libs/seo";
 import config from "@/config";
 
-// CHATGPT PROMPT TO GENERATE YOUR TERMS & SERVICES — replace with your own data 👇
-//
-// Use the prompt below in ChatGPT (do not add explanations). It should produce a short, clear Terms & Services
-// for the AI Code Reviewer project. Include the current date at the top, and output only the terms text.
-//
-// PROMPT START
-// You are an excellent lawyer. Produce a concise Terms & Services document for the website and service below.
-// Output only the terms text (no commentary), include the current date at the top, and keep language simple.
-//
-// Context:
-// - Website: https://aicodereviewer.io
-// - Name: AI Code Reviewer
-// - Contact information: evgeny.aleksandrov99@gmail.com
-// - Description: Automate GitHub pull request reviews using an n8n + OpenAI agent to generate contextual comments and suggested fixes.
-// - Ownership: when buying a package, users can download code to create apps. They own the code they create but may NOT resell it.
-// - Refunds: users can request a full refund within 7 days of purchase.
-// - User data collected: name, email and payment information
-// - Non-personal data collection: web cookies
-// - Link to privacy-policy: https://aicodereviewer.io/privacy-policy
-// - Governing Law: France
-// - Updates to the Terms: users will be notified by email of material changes
-//
-// Requirements:
-// - Keep it short and plain-language suitable for a small SaaS.
-// - Cover: service description, ownership & usage rights, refunds, data collection & privacy link, liability limit (brief), governing law, updates, contact.
-// - State that payment processing is handled by third-party payment processors and that payment data is not stored on our servers.
-// - No legalese; use short paragraphs and numbered sections where helpful.
-//
-// Example instruction at the top of output: "Last Updated: YYYY-MM-DD"
-//
-// PROMPT END
-
 export const metadata = getSEOTags({
   title: `Terms and Conditions | ${config.appName}`,
   canonicalUrlRelative: "/tos",
@@ -58,6 +26,7 @@ const TOS = () => {
           </svg>
           Back
         </Link>
+
         <h1 className="text-3xl font-extrabold pb-6">
           Terms and Conditions for {config.appName}
         </h1>
@@ -66,43 +35,46 @@ const TOS = () => {
           className="leading-relaxed whitespace-pre-wrap"
           style={{ fontFamily: "sans-serif" }}
         >
-          {`Last Updated: 2026-01-18
+{`Last Updated: 2026-01-18
 
-Terms & Services – AI Code Reviewer
+Terms & Services – JavaScript Mastery
 
-These Terms & Services govern your use of the website https://aicodereviewer.io and the AI Code Reviewer service (“Service”). By using the Service, you agree to these terms.
+These Terms & Services govern your use of the website and services provided by JavaScript Mastery (“Service”). By accessing or purchasing the Service, you agree to these terms.
 
 1. Service Description
-AI Code Reviewer automates GitHub pull request reviews using an n8n + OpenAI agent that generates contextual comments and suggested fixes. The Service is provided on an “as is” basis.
+JavaScript Mastery is an educational platform offering online courses, learning materials, and interview preparation resources focused on JavaScript, React, and frontend engineering. Content includes video lessons, projects, roadmaps, and community access. The Service is provided on an “as is” basis.
 
 2. Accounts and Payments
-To access certain features, you may need to create an account and purchase a package. Payments are processed by third-party payment providers. We do NOT store or process your payment details on our servers.
+To access paid content, you must purchase a plan. Payments are processed securely by third-party payment providers. JavaScript Mastery does NOT store or process your payment details on its own servers.
 
-3. Ownership and Usage Rights
-When you purchase a package, you may download and use the provided code to create your own applications.
-- You own the code you create using the Service.
-- You may use the code for personal or commercial projects.
-- You may not resell, sublicense, or redistribute the code or the Service itself as a competing product.
+3. Access and Usage Rights
+When you purchase a plan:
+- You receive personal, non-transferable access to the course content.
+- You may use the materials for personal learning and career development.
+- You may NOT resell, redistribute, share, or publicly publish the course content, videos, projects, or materials in whole or in part.
+- Access may be revoked if these terms are violated.
 
 4. Refund Policy
-You may request a full refund within 7 days of purchase. To request a refund, contact us at the email address listed below.
+We offer a 7-day money-back guarantee. If you are not satisfied, you may request a full refund within 7 days of purchase by contacting us at the email address below.
 
-5. Data Collection and Privacy
-We collect personal data such as name, email, and payment-related information, as well as non-personal data like cookies. Our use of data is described in our Privacy Policy: https://aicodereviewer.io/privacy-policy
+5. Bootcamp & Live Components
+Bootcamp plans may include limited cohort access, mock interviews, and community challenges. Scheduling and availability of live or interactive components may vary and are subject to reasonable changes.
 
-6. Limitation of Liability
-We strive to provide a reliable service, but we do not guarantee that the Service will be error-free or uninterrupted. To the maximum extent permitted by law, AI Code Reviewer is not liable for indirect or consequential damages arising from your use of the Service.
+6. Data Collection and Privacy
+We collect personal data such as name, email address, and payment-related information, as well as non-personal data such as cookies. For details on how data is handled, please review our Privacy Policy.
 
-7. Governing Law
+7. Limitation of Liability
+While we strive to provide high-quality educational content, we do not guarantee specific outcomes, job offers, or interview success. To the maximum extent permitted by law, JavaScript Mastery is not liable for indirect or consequential damages resulting from the use of the Service.
+
+8. Governing Law
 These Terms are governed by the laws of France.
 
-8. Updates to These Terms
-If we make material changes to these Terms, we will notify users by email. Continued use of the Service means you accept the updated Terms.
+9. Updates to These Terms
+We may update these Terms from time to time. Material changes will be communicated by email. Continued use of the Service after changes take effect constitutes acceptance of the updated Terms.
 
-9. Contact
-If you have questions about these Terms, contact us at:
+10. Contact
+If you have any questions about these Terms, please contact us:
 Email: evgeny.aleksandrov99@gmail.com
-Website: https://ai-code-reviewer-landing.vercel.app
 `}
         </pre>
       </div>

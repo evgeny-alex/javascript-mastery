@@ -2,37 +2,6 @@ import Link from "next/link";
 import { getSEOTags } from "@/libs/seo";
 import config from "@/config";
 
-// CHATGPT PROMPT TO GENERATE YOUR PRIVACY POLICY — replace with your own data 👇
-//
-// Use the prompt below in ChatGPT (do not add explanations). It should produce a short, clear privacy policy
-// for the AI Code Reviewer project. Include the current date at the top, and output only the policy text.
-//
-// PROMPT START
-// You are a professional legal copywriter. Produce a concise Privacy Policy for the website and service below.
-// Output only the policy text (no commentary), include the current date at the top, and keep language simple.
-//
-// Context:
-// - Website: https://aicodereviewer.io
-// - Name: AI Code Reviewer
-// - Description: Automate GitHub pull request reviews using an n8n + OpenAI agent to generate contextual comments and suggested fixes.
-// - Collected personal data: name, email, payment information
-// - Non-personal data: cookies and usage analytics
-// - Purpose of data collection: order processing, account setup, support and service improvement
-// - Data sharing: we do NOT share personal data with third parties except service providers necessary for payment or hosting
-// - Children's privacy: we do not knowingly collect data from children under 13
-// - Updates: users will be notified of material changes by email
-// - Contact: evgeny.aleksandrov99@gmail.com
-//
-// Requirements:
-// - Keep it short and plain-language suitable for a small SaaS.
-// - Cover: what is collected, how it is used, sharing, security, refunds/retention (brief), children's policy, updates, contact.
-// - State that payment processing is handled by third-party payment processors and that payment data is not stored on our servers.
-// - No legalese; use short paragraphs and numbered sections where helpful.
-//
-// Example instruction at the top of output: "Last Updated: YYYY-MM-DD"
-//
-// PROMPT END
-
 export const metadata = getSEOTags({
   title: `Privacy Policy | ${config.appName}`,
   canonicalUrlRelative: "/privacy-policy",
@@ -57,6 +26,7 @@ const PrivacyPolicy = () => {
           </svg>{" "}
           Back
         </Link>
+
         <h1 className="text-3xl font-extrabold pb-6">
           Privacy Policy for {config.appName}
         </h1>
@@ -65,46 +35,47 @@ const PrivacyPolicy = () => {
           className="leading-relaxed whitespace-pre-wrap"
           style={{ fontFamily: "sans-serif" }}
         >
-          {`Last Updated: 2026-01-18
+{`Last Updated: 2026-01-18
 
-AI Code Reviewer (“we”, “us”, or “our”) operates https://aicodereviewer.io. This Privacy Policy explains how we collect, use, and protect information when you use our website and service.
+JavaScript Mastery (“we”, “us”, or “our”) operates this website and provides online educational services focused on JavaScript, React, and interview preparation. This Privacy Policy explains how we collect, use, and protect your information.
 
 1. Information We Collect
 
 Personal data:
 - Name
 - Email address
-- Payment information
+- Payment-related information (handled by third-party providers)
 
 Non-personal data:
 - Cookies
-- Usage and analytics data
+- Basic usage and analytics data
 
 2. How We Use Your Information
-- Process orders and payments
+We use your information to:
+- Process purchases and provide access to course content
 - Create and manage user accounts
+- Communicate important updates related to the course
 - Provide customer support
-- Improve and maintain our service
+- Improve the quality of our educational content and platform
 
 3. Payments
-Payments are handled by third-party providers. We do NOT store or process payment card details on our servers; payment providers securely handle all sensitive payment data.
+All payments are processed securely by third-party payment providers. JavaScript Mastery does NOT store or process your payment card details on its own servers.
 
 4. Data Sharing
-We do NOT sell or share your personal data. We may share data with trusted service providers only when necessary for payment processing or hosting; those providers must protect your data.
+We do NOT sell or rent your personal data. We may share data only with trusted service providers when necessary to operate the service (for example, payment processing or hosting). These providers are required to protect your data.
 
 5. Data Security and Retention
-We take reasonable measures to protect your data. Personal data is retained only as long as necessary to provide the service, meet legal obligations, or resolve disputes.
+We take reasonable measures to protect your personal information. Data is retained only for as long as necessary to provide the service, comply with legal obligations, or resolve disputes.
 
 6. Children’s Privacy
-We do not knowingly collect personal data from children under 13. If you believe a child has provided us with personal information, contact us and we will delete it.
+JavaScript Mastery is not intended for children under the age of 13. We do not knowingly collect personal data from children. If you believe a child has provided us with personal information, please contact us and we will remove it.
 
-7. Updates to This Policy
-Material changes will be communicated to users by email.
+7. Updates to This Privacy Policy
+We may update this Privacy Policy from time to time. Material changes will be communicated to users by email.
 
 8. Contact
-If you have questions about this policy or your data, contact us:
+If you have questions about this Privacy Policy or your data, please contact us:
 Email: evgeny.aleksandrov99@gmail.com
-Website: https://ai-code-reviewer-landing.vercel.app
 `}
         </pre>
       </div>
