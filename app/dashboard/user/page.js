@@ -1,57 +1,76 @@
 import config from "@/config";
 import { auth } from "@/libs/auth";
 import UserInfoForm from "@/components/UserInfoForm";
+import HeaderPlatform from "@/components/HeaderPlatform";
 
+// LessonItem component
+const LessonItem = ({ lesson }) => {
+  return (
+    <div
+      className={`flex items-center justify-between rounded-lg bg-base-200 px-3 py-2 ${
+        lesson.completed ? "" : "opacity-60"
+      }`}
+    >
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          className={`checkbox checkbox-sm ${
+            lesson.completed ? "checkbox-success" : ""
+          }`}
+          defaultChecked={lesson.completed}
+          disabled={!lesson.completed}
+        />
+        <span className="text-sm">{lesson.title}</span>
+      </div>
+      <span className="text-xs text-base-content/60">{lesson.duration}</span>
+    </div>
+  );
+};
+
+// ModuleList component
+const ModuleList = ({ modules }) => {
+  return (
+    <div className="p-4 space-y-4">
+      {modules.map((module, index) => (
+        <div key={index} className="space-y-2">
+          <div className="font-semibold text-base-content/80">
+            {index + 1}. {module.title}
+          </div>
+          <div className="ml-1 space-y-2">
+            {module.lessons.map((lesson, i) => (
+              <LessonItem key={i} lesson={lesson} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Main page component
 function TrainingPlatformShell({ session }) {
-  const userName =
-    session?.user?.name || session?.user?.email || "Student";
+  const userName = session?.user?.name || session?.user?.email || "Student";
+
+  const modules = [
+    {
+      title: "The mindset",
+      lessons: [
+        { title: "WHY?", duration: "3:27", completed: true },
+        { title: "HOW TO…", duration: "5:22", completed: true },
+        { title: "Ship fast", duration: "3:27", completed: false },
+        { title: "Make money", duration: "5:22", completed: false },
+        { title: "Find motivation", duration: "4:52", completed: false },
+      ],
+    },
+    { title: "Explain me internet", lessons: [] },
+    { title: "Your 1st SaaS", lessons: [] },
+    { title: "Outro", lessons: [] },
+  ];
 
   return (
     <main className="min-h-screen bg-base-200">
-      {/* Top bar */}
-      <div className="border-b border-base-300 bg-base-100">
-        <div className="mx-auto max-w-7xl px-6 py-4 flex items-center gap-4">
-          <div className="flex items-center gap-3">
-            <div className="btn btn-ghost btn-sm normal-case text-base font-bold">
-              CodeFast
-            </div>
-          </div>
-
-          <div className="flex-1">
-            <div className="text-xs text-base-content/70 mb-1">
-              221 / 221 lessons completed (100%)
-            </div>
-            <progress
-              className="progress progress-success w-full"
-              value={100}
-              max={100}
-            />
-          </div>
-
-          <div className="hidden md:block text-sm text-base-content/70">
-            Your last lesson:{" "}
-            <span className="font-semibold text-base-content">
-              Private dashboard
-            </span>
-          </div>
-
-          <div className="ml-auto flex items-center gap-3">
-            <div className="badge badge-neutral badge-lg">Completed</div>
-            <div className="flex items-center gap-2">
-              <div className="avatar placeholder">
-                <div className="bg-base-300 text-base-content rounded-full w-9">
-                  <span className="text-sm">
-                    {(userName || "U").toString().slice(0, 1).toUpperCase()}
-                  </span>
-                </div>
-              </div>
-              <div className="hidden sm:block text-sm font-semibold">
-                {userName}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Header */}
+      <HeaderPlatform userName={userName} />
 
       {/* Layout */}
       <div className="mx-auto max-w-7xl px-6 py-8">
@@ -59,101 +78,20 @@ function TrainingPlatformShell({ session }) {
           {/* Sidebar */}
           <aside className="bg-base-100 rounded-2xl shadow-sm border border-base-300 overflow-hidden">
             <div className="p-5 border-b border-base-300">
-              <div className="text-lg font-bold">JavaScript Mastery</div>
+              <div className="text-lg font-bold">{config.appName}</div>
               <div className="text-sm text-base-content/70">
                 Course navigation
               </div>
             </div>
 
-            <div className="p-4 space-y-4">
-              <div className="space-y-2">
-                <div className="font-semibold text-base-content/80">
-                  1. The mindset
-                </div>
-
-                <div className="ml-1 space-y-2">
-                  <div className="flex items-center justify-between rounded-lg bg-base-200 px-3 py-2">
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        className="checkbox checkbox-sm checkbox-success"
-                        defaultChecked
-                      />
-                      <span className="text-sm">WHY?</span>
-                    </div>
-                    <span className="text-xs text-base-content/60">3:27</span>
-                  </div>
-
-                  <div className="flex items-center justify-between rounded-lg bg-base-200 px-3 py-2">
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        className="checkbox checkbox-sm checkbox-success"
-                        defaultChecked
-                      />
-                      <span className="text-sm">HOW TO…</span>
-                    </div>
-                    <span className="text-xs text-base-content/60">5:22</span>
-                  </div>
-
-                  <div className="flex items-center justify-between rounded-lg bg-base-200 px-3 py-2 opacity-60">
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        className="checkbox checkbox-sm"
-                        disabled
-                      />
-                      <span className="text-sm">Ship fast</span>
-                    </div>
-                    <span className="text-xs text-base-content/60">3:27</span>
-                  </div>
-
-                  <div className="flex items-center justify-between rounded-lg bg-base-200 px-3 py-2 opacity-60">
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        className="checkbox checkbox-sm"
-                        disabled
-                      />
-                      <span className="text-sm">Make money</span>
-                    </div>
-                    <span className="text-xs text-base-content/60">5:22</span>
-                  </div>
-
-                  <div className="flex items-center justify-between rounded-lg bg-base-200 px-3 py-2 opacity-60">
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        className="checkbox checkbox-sm"
-                        disabled
-                      />
-                      <span className="text-sm">Find motivation</span>
-                    </div>
-                    <span className="text-xs text-base-content/60">4:52</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="divider my-0" />
-
-              {["2. Explain me internet", "3. Your 1st SaaS", "4. Outro"].map(
-                (t) => (
-                  <div
-                    key={t}
-                    className="rounded-xl border border-base-300 bg-base-100 px-4 py-3"
-                  >
-                    <div className="font-semibold">{t}</div>
-                  </div>
-                )
-              )}
-            </div>
+            <ModuleList modules={modules} />
           </aside>
 
           {/* Content */}
           <section className="bg-base-100 rounded-2xl shadow-sm border border-base-300 overflow-hidden">
             <div className="p-6 border-b border-base-300">
               <h1 className="text-3xl font-extrabold tracking-tight">
-                daisyUI components
+                JavaScript Mastery
               </h1>
             </div>
 
@@ -161,11 +99,9 @@ function TrainingPlatformShell({ session }) {
               {/* Video */}
               <div className="rounded-2xl border border-base-300 overflow-hidden">
                 <div className="aspect-video bg-base-200 relative">
-                  {/* Заглушка под плеер */}
+                  {/* Placeholder for video player */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <button className="btn btn-circle btn-primary">
-                      ▶
-                    </button>
+                    <button className="btn btn-circle btn-primary">▶</button>
                   </div>
 
                   <div className="absolute left-4 bottom-4 text-xs text-base-content/70">
@@ -179,38 +115,16 @@ function TrainingPlatformShell({ session }) {
                 <div className="text-lg font-bold mb-3">Summary</div>
                 <ul className="list-disc list-inside space-y-2 text-base-content/90 leading-relaxed">
                   <li>
-                    daisyUI is used for user interface elements like buttons,
-                    toggles, cards
+                    JavaScript Mastery is a hands-on course for mastering
+                    JavaScript and React.
                   </li>
                   <li>
-                    Classes like{" "}
-                    <span className="badge badge-ghost font-mono">btn</span> and{" "}
-                    <span className="badge badge-ghost font-mono">
-                      btn-primary
-                    </span>{" "}
-                    are used to style buttons in daisyUI
+                    Learn modern JavaScript, async patterns, and clean code
+                    practices.
                   </li>
                   <li>
-                    daisyUI is a collection of Tailwind CSS classes, simplifying
-                    the code needed
-                  </li>
-                  <li>
-                    To install daisyUI, stop the server (press{" "}
-                    <span className="badge badge-ghost font-mono">Ctrl + C</span>
-                    ), and run{" "}
-                    <span className="badge badge-ghost font-mono">
-                      npm i -D daisyui@4.11.1
-                    </span>
-                  </li>
-                  <li>
-                    Then inside the{" "}
-                    <span className="badge badge-ghost font-mono">
-                      tailwind.config.js
-                    </span>{" "}
-                    add this under plugins array:{" "}
-                    <span className="badge badge-ghost font-mono">
-                      require(&apos;daisyui&apos;)
-                    </span>
+                    Build real-world projects and prepare for technical
+                    interviews.
                   </li>
                 </ul>
               </div>
