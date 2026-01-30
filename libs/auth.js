@@ -2,8 +2,11 @@ import NextAuth from "next-auth";
 import Resend from "next-auth/providers/resend";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/libs/mongo";
+import { authConfig } from "@/libs/auth.config";
 
-const config = {
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
+  adapter: MongoDBAdapter(clientPromise),
   providers: [
     Resend({
       apiKey: process.env.RESEND_API_KEY,
@@ -11,12 +14,5 @@ const config = {
       name: "Email",
     }),
   ],
-  adapter: MongoDBAdapter(clientPromise),
-  callbacks: {
-    async redirect({ url, baseUrl }) {
-      return `${baseUrl}/dashboard/user`;
-    },
-  },
-};
+});
 
-export const { handlers, signIn, signOut, auth } = NextAuth(config);
