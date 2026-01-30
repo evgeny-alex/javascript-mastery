@@ -24,7 +24,12 @@ const links = [
   },
 ];
 
-const cta = <Button title="Get Started" href={"/dashboard"} extraStyle={"btn-accent"} />;
+const cta = (
+  <div className="flex items-center gap-3">
+    <Button title="Login" href="/api/auth/signin" extraStyle="btn-accent-content" />
+    <Button title="Get Started" href="/dashboard" extraStyle="btn-accent" />
+  </div>
+);
 
 // A header with a logo on the left, links in the center (like Pricing, etc...), and a CTA (like Get Started or Login) on the right.
 // The header is responsive, and on mobile, the links are hidden behind a burger button.
