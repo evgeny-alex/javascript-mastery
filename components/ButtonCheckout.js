@@ -145,10 +145,7 @@ export default function ButtonCheckout({
       onClick={handlePayment}
       disabled={isLoading || !isReady}
       type="button"
-      className="btn w-full group border-0 text-white"
-      style={{
-        background: `linear-gradient(90deg, ${brandStart}, ${brandEnd})`,
-      }}
+      className="btn btn-primary w-full group border-0 text-white"
     >
       {isLoading ? (
         <span className="loading loading-spinner loading-xs"></span>
