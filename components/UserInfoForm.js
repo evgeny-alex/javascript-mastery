@@ -41,10 +41,10 @@ export default function UserInfoForm({ session }) {
   return (
     <div className="max-w-md mx-auto text-center">
       <p className="text-lg font-semibold text-green-600">
-        Your access is active. Welcome to JavaScript Mastery!
+        Your access is active. Opening your course…
       </p>
-      <a href="/dashboard" className="btn btn-accent w-full mt-4">
-        Go to Dashboard
+      <a href="/user" className="btn btn-accent w-full mt-4">
+        Continue
       </a>
     </div>
   );
