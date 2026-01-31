@@ -2,10 +2,15 @@ import { useState } from "react";
 import LessonItem from "./LessonItem";
 
 const ModuleList = ({ modules, onLessonSelect }) => {
-  const [expandedModuleIndex, setExpandedModuleIndex] = useState(null);
+  const [expandedModules, setExpandedModules] = useState([]);
 
   const toggleModule = (index) => {
-    setExpandedModuleIndex(expandedModuleIndex === index ? null : index);
+    setExpandedModules(
+      (prev) =>
+        prev.includes(index)
+          ? prev.filter((i) => i !== index) // Collapse if already expanded
+          : [...prev, index], // Expand if not already expanded
+    );
   };
 
   return (
@@ -25,7 +30,7 @@ const ModuleList = ({ modules, onLessonSelect }) => {
               viewBox="0 0 20 20"
               fill="currentColor"
               className={`w-5 h-5 transition-transform ${
-                expandedModuleIndex === index ? "rotate-180" : ""
+                expandedModules.includes(index) ? "rotate-180" : ""
               }`}
             >
               <path
@@ -37,7 +42,7 @@ const ModuleList = ({ modules, onLessonSelect }) => {
           </div>
 
           {/* Lessons */}
-          {expandedModuleIndex === index && (
+          {expandedModules.includes(index) && (
             <div className="ml-1 space-y-2">
               {module.lessons.map((lesson, i) => (
                 <LessonItem
