@@ -1,9 +1,10 @@
-const LessonItem = ({ lesson }) => {
+const LessonItem = ({ lesson, onClick }) => {
   return (
     <div
-      className={`flex items-center justify-between rounded-lg bg-base-200 px-3 py-2 ${
+      className={`flex items-center justify-between rounded-lg bg-base-200 px-3 py-2 cursor-pointer ${
         lesson.completed ? "" : "opacity-60"
       }`}
+      onClick={onClick}
     >
       <div className="flex items-center gap-2">
         <input
