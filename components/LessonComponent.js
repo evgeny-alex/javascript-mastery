@@ -1,4 +1,12 @@
+import { useState } from "react";
+
 const LessonComponent = ({ lesson }) => {
+  const [isCompleted, setIsCompleted] = useState(lesson?.completed || false);
+
+  const handleComplete = () => {
+    setIsCompleted((prevState) => !prevState); // Toggle the state
+  };
+
   if (!lesson) {
     return (
       <section className="bg-base-100 rounded-2xl shadow-sm border border-base-300 overflow-hidden">
@@ -13,10 +21,18 @@ const LessonComponent = ({ lesson }) => {
 
   return (
     <section className="bg-base-100 rounded-2xl shadow-sm border border-base-300 overflow-hidden">
-      <div className="p-6 border-b border-base-300">
+      <div className="p-6 border-b border-base-300 flex justify-between items-center">
         <h1 className="text-3xl font-extrabold tracking-tight">
           {lesson.title}
         </h1>
+        <button
+          className={`btn ${
+            isCompleted ? "btn-success" : "btn-primary-content"
+          }`}
+          onClick={handleComplete}
+        >
+          {isCompleted ? "Completed" : "Complete"}
+        </button>
       </div>
 
       <div
