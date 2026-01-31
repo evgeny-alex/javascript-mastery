@@ -19,17 +19,10 @@ const LessonComponent = ({ lesson }) => {
         </h1>
       </div>
 
-      <div className="p-6 space-y-6">
-        {/* Placeholder for lesson content */}
-        <p className="text-base-content/80 leading-relaxed">
-          Duration: {lesson.duration}
-        </p>
-        <p className="text-base-content/70">
-          {lesson.completed
-            ? "You have completed this lesson."
-            : "This lesson is not yet completed."}
-        </p>
-      </div>
+      <div
+        className="p-6 space-y-6 text-base-content/80 leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: lesson.content }}
+      />
     </section>
   );
 };
