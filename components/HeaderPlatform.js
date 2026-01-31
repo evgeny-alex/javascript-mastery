@@ -1,10 +1,10 @@
 import config from "@/config";
+import UserMenu from "./UserMenu";
 
 const HeaderPlatform = ({ userName }) => {
   return (
     <div className="border-b border-base-300 bg-base-100">
       <div className="mx-auto max-w-7xl px-6 py-4 flex items-center gap-6">
-        
         {/* Logo + App name */}
         <div className="flex items-center gap-3">
           <img
@@ -12,9 +12,7 @@ const HeaderPlatform = ({ userName }) => {
             alt="Logo"
             className="w-10 h-10"
           />
-          <div className="text-base font-bold">
-            {config.appName}
-          </div>
+          <div className="text-base font-bold">{config.appName}</div>
         </div>
 
         {/* Progress block */}
@@ -38,12 +36,9 @@ const HeaderPlatform = ({ userName }) => {
         </div>
 
         {/* User */}
-        <div className="ml-auto flex items-center gap-2">
-          <div className="hidden sm:block text-sm font-semibold">
-            {userName}
-          </div>
+        <div className="ml-auto">
+          <UserMenu userName={userName} />
         </div>
-
       </div>
     </div>
   );
