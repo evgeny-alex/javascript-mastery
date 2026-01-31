@@ -1,19 +1,41 @@
 "use client";
 
 import { useState } from "react";
-import modules from "@/libs/modules";
+import modulesData from "@/libs/modules";
 import HeaderPlatform from "@/components/HeaderPlatform";
 import ModuleList from "@/components/ModuleList";
 import LessonComponent from "@/components/LessonComponent";
 
 const TrainingPlatformShell = ({ session }) => {
   const userName = session?.user?.name || session?.user?.email || "Student";
+  const [modules, setModules] = useState(modulesData);
   const [selectedLesson, setSelectedLesson] = useState(null);
 
   const handleLessonSelect = async (lesson) => {
-    // Dynamically import the lesson content based on the lesson_code
     const lessonContent = await import(`@/lessons/${lesson.lesson_code}.js`);
-    setSelectedLesson(lessonContent.default);
+    setSelectedLesson({ ...lesson, content: lessonContent.default.content });
+  };
+
+  const handleLessonComplete = (lessonCode, isCompleted) => {
+    // Update the lesson's completion state in the modules list
+    setModules((prevModules) =>
+      prevModules.map((module) => ({
+        ...module,
+        lessons: module.lessons.map((lesson) =>
+          lesson.lesson_code === lessonCode
+            ? { ...lesson, completed: isCompleted }
+            : lesson,
+        ),
+      })),
+    );
+
+    // Update the selected lesson's completion state
+    if (selectedLesson?.lesson_code === lessonCode) {
+      setSelectedLesson((prevLesson) => ({
+        ...prevLesson,
+        completed: isCompleted,
+      }));
+    }
   };
 
   return (
@@ -34,7 +56,10 @@ const TrainingPlatformShell = ({ session }) => {
           </aside>
 
           {/* Lesson Content */}
-          <LessonComponent lesson={selectedLesson} />
+          <LessonComponent
+            lesson={selectedLesson}
+            onLessonComplete={handleLessonComplete}
+          />
         </div>
       </div>
     </main>

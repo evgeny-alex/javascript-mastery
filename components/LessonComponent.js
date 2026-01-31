@@ -1,10 +1,12 @@
 import { useState } from "react";
 
-const LessonComponent = ({ lesson }) => {
+const LessonComponent = ({ lesson, onLessonComplete }) => {
   const [isCompleted, setIsCompleted] = useState(lesson?.completed || false);
 
   const handleComplete = () => {
-    setIsCompleted((prevState) => !prevState); // Toggle the state
+    const newState = !isCompleted; // Toggle the state
+    setIsCompleted(newState);
+    onLessonComplete(lesson.lesson_code, newState); // Notify parent about the state change
   };
 
   if (!lesson) {
