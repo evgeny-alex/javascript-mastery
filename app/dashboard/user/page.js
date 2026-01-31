@@ -2,50 +2,7 @@ import config from "@/config";
 import { auth } from "@/libs/auth";
 import UserInfoForm from "@/components/UserInfoForm";
 import HeaderPlatform from "@/components/HeaderPlatform";
-
-// LessonItem component
-const LessonItem = ({ lesson }) => {
-  return (
-    <div
-      className={`flex items-center justify-between rounded-lg bg-base-200 px-3 py-2 ${
-        lesson.completed ? "" : "opacity-60"
-      }`}
-    >
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          className={`checkbox checkbox-sm ${
-            lesson.completed ? "checkbox-success" : ""
-          }`}
-          defaultChecked={lesson.completed}
-          disabled={!lesson.completed}
-        />
-        <span className="text-sm">{lesson.title}</span>
-      </div>
-      <span className="text-xs text-base-content/60">{lesson.duration}</span>
-    </div>
-  );
-};
-
-// ModuleList component
-const ModuleList = ({ modules }) => {
-  return (
-    <div className="p-4 space-y-4">
-      {modules.map((module, index) => (
-        <div key={index} className="space-y-2">
-          <div className="font-semibold text-base-content/80">
-            {index + 1}. {module.title}
-          </div>
-          <div className="ml-1 space-y-2">
-            {module.lessons.map((lesson, i) => (
-              <LessonItem key={i} lesson={lesson} />
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
+import ModuleList from "@/components/ModuleList";
 
 // Main page component
 function TrainingPlatformShell({ session }) {
