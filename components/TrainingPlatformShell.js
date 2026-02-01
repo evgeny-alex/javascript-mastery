@@ -18,6 +18,14 @@ const findLessonTitleByCode = (mods, code) => {
   return "";
 };
 
+const findLessonByCode = (mods, code) => {
+  for (const m of mods) {
+    const l = m.lessons.find((x) => x.lesson_code === code);
+    if (l) return l;
+  }
+  return null;
+};
+
 const TrainingPlatformShell = ({ session }) => {
   const userName = session?.user?.name || session?.user?.email || "Student";
   const [modules, setModules] = useState(modulesData);
@@ -41,27 +49,65 @@ const TrainingPlatformShell = ({ session }) => {
         setLastLessonCode(last);
 
         // Map completed lessons to modules
-        setModules((prevModules) =>
-          prevModules.map((module) => ({
-            ...module,
-            lessons: module.lessons.map((lesson) => ({
-              ...lesson,
-              completed: completedLessons.includes(lesson.lesson_code),
-            })),
+        const updatedModules = modulesData.map((module) => ({
+          ...module,
+          lessons: module.lessons.map((lesson) => ({
+            ...lesson,
+            completed: completedLessons.includes(lesson.lesson_code),
           })),
-        );
+        }));
+
+        setModules(updatedModules);
+
+        // If there's a last completed lesson, pre-load its content and select it
+        if (last) {
+          const lessonObj = findLessonByCode(updatedModules, last);
+          if (lessonObj) {
+            try {
+              const lessonContent = await import(
+                `@/lessons/${lessonObj.lesson_code}.js`
+              );
+              setSelectedLesson({
+                ...lessonObj,
+                content: lessonContent.default.content,
+                completed: true,
+              });
+            } catch (e) {
+              // ignore import error, leave selectedLesson null
+              console.error("Failed to load last lesson content:", e);
+            }
+          }
+        }
       } catch (e) {
         // fallback: show all as not completed
+        console.error("Failed to fetch progress:", e);
       } finally {
         setLoading(false);
       }
     }
     fetchProgress();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLessonSelect = async (lesson) => {
+    // load lesson content
     const lessonContent = await import(`@/lessons/${lesson.lesson_code}.js`);
-    setSelectedLesson({ ...lesson, content: lessonContent.default.content });
+
+    // get latest completed lessons from server (to read isCompleted from DB)
+    let completed = lesson.completed || false;
+    try {
+      const res = await apiClient.get("/user/progress");
+      const completedLessons = res?.completedLessons || [];
+      completed = completedLessons.includes(lesson.lesson_code);
+    } catch (e) {
+      // fallback to local value if request fails
+    }
+
+    setSelectedLesson({
+      ...lesson,
+      content: lessonContent.default.content,
+      completed,
+    });
   };
 
   const syncProgressFromServer = async () => {
@@ -74,15 +120,33 @@ const TrainingPlatformShell = ({ session }) => {
       } = res || {};
       setProgress(p);
       setLastLessonCode(last);
-      setModules((prevModules) =>
-        prevModules.map((module) => ({
-          ...module,
-          lessons: module.lessons.map((lesson) => ({
-            ...lesson,
-            completed: completedLessons.includes(lesson.lesson_code),
-          })),
+      const updatedModules = modulesData.map((module) => ({
+        ...module,
+        lessons: module.lessons.map((lesson) => ({
+          ...lesson,
+          completed: completedLessons.includes(lesson.lesson_code),
         })),
-      );
+      }));
+      setModules(updatedModules);
+
+      // if last changed, update selectedLesson to reflect it
+      if (last) {
+        const lessonObj = findLessonByCode(updatedModules, last);
+        if (lessonObj) {
+          try {
+            const lessonContent = await import(
+              `@/lessons/${lessonObj.lesson_code}.js`
+            );
+            setSelectedLesson({
+              ...lessonObj,
+              content: lessonContent.default.content,
+              completed: true,
+            });
+          } catch (e) {
+            console.error("Failed to load last lesson content:", e);
+          }
+        }
+      }
     } catch (e) {
       console.error("Failed to sync progress:", e);
     }
