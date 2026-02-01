@@ -12,8 +12,9 @@ const LessonItem = ({ lesson, onClick }) => {
           className={`checkbox checkbox-sm ${
             lesson.completed ? "checkbox-success" : ""
           }`}
-          defaultChecked={lesson.completed}
-          disabled={!lesson.completed}
+          checked={lesson.completed} // <-- use controlled checked instead of defaultChecked
+          readOnly
+          disabled
         />
         <span className="text-sm">{lesson.title}</span>
       </div>
