@@ -26,6 +26,9 @@ const findLessonByCode = (mods, code) => {
   return null;
 };
 
+const getFlatLessons = (mods) =>
+  mods.flatMap((m) => m.lessons.map((l) => ({ ...l, moduleTitle: m.title })));
+
 const TrainingPlatformShell = ({ session }) => {
   const userName = session?.user?.name || session?.user?.email || "Student";
   const [modules, setModules] = useState(modulesData);
@@ -182,6 +185,22 @@ const TrainingPlatformShell = ({ session }) => {
     }
   };
 
+  const handleNavigate = async (direction) => {
+    if (!selectedLesson) return;
+    const flat = getFlatLessons(modules);
+    const idx = flat.findIndex(
+      (l) => l.lesson_code === selectedLesson.lesson_code,
+    );
+    if (idx === -1) return;
+
+    const targetIdx = direction === "prev" ? idx - 1 : idx + 1;
+    if (targetIdx < 0 || targetIdx >= flat.length) return;
+
+    const target = flat[targetIdx];
+    // reuse existing selection logic
+    await handleLessonSelect(target);
+  };
+
   if (loading) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-base-200">
@@ -214,6 +233,7 @@ const TrainingPlatformShell = ({ session }) => {
           <LessonComponent
             lesson={selectedLesson}
             onLessonComplete={handleLessonComplete}
+            onNavigate={handleNavigate} // <- new prop
           />
         </div>
       </div>
