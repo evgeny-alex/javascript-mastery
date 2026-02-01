@@ -5,6 +5,7 @@ import modulesData from "@/libs/modules";
 import HeaderPlatform from "@/components/HeaderPlatform";
 import ModuleList from "@/components/ModuleList";
 import LessonComponent from "@/components/LessonComponent";
+import apiClient from "@/libs/api";
 
 const TrainingPlatformShell = ({ session }) => {
   const userName = session?.user?.name || session?.user?.email || "Student";
@@ -16,7 +17,7 @@ const TrainingPlatformShell = ({ session }) => {
     setSelectedLesson({ ...lesson, content: lessonContent.default.content });
   };
 
-  const handleLessonComplete = (lessonCode, isCompleted) => {
+  const handleLessonComplete = async (lessonCode, isCompleted) => {
     // Update the lesson's completion state in the modules list
     setModules((prevModules) =>
       prevModules.map((module) => ({
@@ -35,6 +36,16 @@ const TrainingPlatformShell = ({ session }) => {
         ...prevLesson,
         completed: isCompleted,
       }));
+    }
+
+    // Send the updated progress to the backend
+    try {
+      await apiClient.post("/user/progress", {
+        lessonCode,
+        isCompleted,
+      });
+    } catch (error) {
+      console.error("Failed to update lesson progress:", error);
     }
   };
 

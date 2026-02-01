@@ -39,11 +39,24 @@ const userSchema = mongoose.Schema(
     variantName: {
       type: String,
     },
+    // New fields for tracking progress
+    progress: {
+      type: Number, // Number of completed lessons
+      default: 0,
+    },
+    lastLessonCode: {
+      type: String, // Code of the last completed lesson
+      trim: true,
+    },
+    completedLessons: {
+      type: [String], // List of completed lesson codes
+      default: [],
+    },
   },
   {
     timestamps: true,
     toJSON: { virtuals: true },
-  }
+  },
 );
 
 // add plugin that converts mongoose to json
