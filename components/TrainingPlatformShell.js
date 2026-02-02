@@ -224,7 +224,7 @@ const TrainingPlatformShell = ({ session }) => {
         lastLessonTitle={lastLessonTitle}
       />
       <div className="mx-auto max-w-7xl px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6 items-start">
           <aside className="bg-base-100 rounded-2xl shadow-sm border border-base-300 overflow-hidden">
             <div className="p-5 border-b border-base-300">
               <div className="text-lg font-bold">Course navigation</div>

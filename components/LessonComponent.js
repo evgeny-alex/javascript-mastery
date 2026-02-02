@@ -40,12 +40,10 @@ const LessonComponent = ({ lesson, onLessonComplete, onNavigate }) => {
         </button>
       </div>
 
-      <div
-        className="p-6 space-y-6 text-base-content/80 leading-relaxed"
-        dangerouslySetInnerHTML={{ __html: lesson.content }}
-      />
+      <div className="p-6 space-y-6 text-base-content/80 leading-relaxed">
+        <div dangerouslySetInnerHTML={{ __html: lesson.content }} />
+      </div>
 
-      {/* Navigation */}
       <div className="p-6 border-t border-base-300 flex justify-between gap-4">
         <button
           className="btn btn-outline flex items-center gap-2"
