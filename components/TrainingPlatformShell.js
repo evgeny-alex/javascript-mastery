@@ -31,6 +31,7 @@ const getFlatLessons = (mods) =>
 
 const TrainingPlatformShell = ({ session }) => {
   const userName = session?.user?.name || session?.user?.email || "Student";
+  const userId = session?.user?.email || session?.user?.id || "anon";
   const [modules, setModules] = useState(modulesData);
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -228,7 +229,11 @@ const TrainingPlatformShell = ({ session }) => {
             <div className="p-5 border-b border-base-300">
               <div className="text-lg font-bold">Course navigation</div>
             </div>
-            <ModuleList modules={modules} onLessonSelect={handleLessonSelect} />
+            <ModuleList
+              modules={modules}
+              onLessonSelect={handleLessonSelect}
+              userId={userId}
+            />
           </aside>
           <LessonComponent
             lesson={selectedLesson}
