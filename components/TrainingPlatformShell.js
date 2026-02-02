@@ -71,10 +71,11 @@ const TrainingPlatformShell = ({ session }) => {
               const lessonContent = await import(
                 `@/lessons/${lessonObj.lesson_code}.js`
               );
+              // set completed based on authoritative completedLessons from server
               setSelectedLesson({
                 ...lessonObj,
                 content: lessonContent.default.content,
-                completed: true,
+                completed: completedLessons.includes(lessonObj.lesson_code),
               });
             } catch (e) {
               // ignore import error, leave selectedLesson null
@@ -144,7 +145,10 @@ const TrainingPlatformShell = ({ session }) => {
             setSelectedLesson({
               ...lessonObj,
               content: lessonContent.default.content,
-              completed: true,
+              completed:
+                (Array.isArray(completedLessons) &&
+                  completedLessons.includes(lessonObj.lesson_code)) ||
+                false,
             });
           } catch (e) {
             console.error("Failed to load last lesson content:", e);
@@ -180,6 +184,21 @@ const TrainingPlatformShell = ({ session }) => {
       await apiClient.post("/user/progress", { lessonCode, isCompleted });
       // re-fetch progress to get authoritative counts/lastLessonCode
       await syncProgressFromServer();
+
+      // If user just completed this lesson, navigate to the next one automatically
+      if (isCompleted) {
+        try {
+          const flat = getFlatLessons(modulesData);
+          const idx = flat.findIndex((l) => l.lesson_code === lessonCode);
+          const targetIdx = idx + 1;
+          if (idx !== -1 && targetIdx >= 0 && targetIdx < flat.length) {
+            const target = flat[targetIdx];
+            await handleLessonSelect(target);
+          }
+        } catch (navErr) {
+          console.error("Failed to navigate to next lesson:", navErr);
+        }
+      }
     } catch (error) {
       console.error("Failed to update lesson progress:", error);
       // optionally rollback optimistic update (not implemented)
