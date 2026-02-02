@@ -1,8 +1,12 @@
 const lessonContent = {
-  title: "HOW TO…",
+  title: "Variables",
   content: `
-    <p>This lesson will teach you how to approach problem-solving effectively.</p>
-    <p>We will cover strategies to break down complex problems into manageable steps.</p>
+    <p>Learn how to declare and use variables in JavaScript: var, let, const.</p>
+    <ul>
+      <li>Differences between var / let / const</li>
+      <li>Naming conventions</li>
+      <li>Examples and common pitfalls</li>
+    </ul>
   `,
 };
 

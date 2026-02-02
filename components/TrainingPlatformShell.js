@@ -161,6 +161,11 @@ const TrainingPlatformShell = ({ session }) => {
   };
 
   const handleLessonComplete = async (lessonCode, isCompleted) => {
+    // determine previous completed state for this lesson (before optimistic update)
+    const flatBefore = getFlatLessons(modules);
+    const prevLesson = flatBefore.find((l) => l.lesson_code === lessonCode);
+    const prevCompleted = !!prevLesson?.completed;
+
     // Optimistic UI update
     setModules((prevModules) =>
       prevModules.map((module) => ({
@@ -174,8 +179,8 @@ const TrainingPlatformShell = ({ session }) => {
     );
 
     if (selectedLesson?.lesson_code === lessonCode) {
-      setSelectedLesson((prevLesson) => ({
-        ...prevLesson,
+      setSelectedLesson((prevLessonState) => ({
+        ...prevLessonState,
         completed: isCompleted,
       }));
     }
@@ -185,8 +190,8 @@ const TrainingPlatformShell = ({ session }) => {
       // re-fetch progress to get authoritative counts/lastLessonCode
       await syncProgressFromServer();
 
-      // If user just completed this lesson, navigate to the next one automatically
-      if (isCompleted) {
+      // Navigate to next lesson ONLY when we transitioned from not-completed -> completed
+      if (!prevCompleted && isCompleted) {
         try {
           const flat = getFlatLessons(modulesData);
           const idx = flat.findIndex((l) => l.lesson_code === lessonCode);
