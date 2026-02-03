@@ -3,8 +3,7 @@
 
 import { useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
-import { useSession } from "next-auth/react";
-import { signOut } from "@/libs/auth";
+import { useSession, signOut } from "next-auth/react";
 import apiClient from "@/libs/api";
 
 // A button to show user some account actions

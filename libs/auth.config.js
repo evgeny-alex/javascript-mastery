@@ -6,23 +6,25 @@ export const authConfig = {
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
-      // If an explicit relative path is provided (e.g. "/" or "/dashboard"), preserve it
+      // Preserve explicit relative paths (including "/") — landing or any other relative callback
       if (typeof url === "string" && url.startsWith("/")) {
         return `${baseUrl}${url}`;
       }
 
-      // If a full URL is provided and matches our origin, allow it
+      // If an absolute URL from the same origin is provided, allow it
       try {
         if (typeof url === "string") {
           const parsed = new URL(url);
-          if (parsed.origin === baseUrl) return url;
+          if (parsed.origin === baseUrl) {
+            return url;
+          }
         }
       } catch (e) {
         // ignore invalid URL
       }
 
-      // Fallback: default landing for signed-in users
-      return `${baseUrl}/dashboard/user`;
+      // Fallback: redirect to landing page
+      return baseUrl;
     },
   },
 };
