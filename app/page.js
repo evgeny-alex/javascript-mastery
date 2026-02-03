@@ -7,7 +7,6 @@ import FAQ from "@/components/FAQ";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import FeaturesListicle from "@/components/FeaturesListicle";
-import Demo from "@/components/Demo";
 
 export default function Page() {
   return (

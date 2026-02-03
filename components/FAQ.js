@@ -3,8 +3,6 @@
 import { useRef, useState } from "react";
 
 // daisyUI theme colors
-const BRAND_START = "var(--color-primary)";
-const BRAND_END = "var(--color-secondary)";
 const SELECTED_COLOR = "var(--color-primary)";
 
 const faqList = [

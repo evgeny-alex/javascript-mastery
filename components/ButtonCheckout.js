@@ -37,8 +37,6 @@ export default function ButtonCheckout({
   email,
   customerAuthToken,
   customData,
-  brandStart = "#eb538a",
-  brandEnd = "#ff930f",
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isReady, setIsReady] = useState(false);

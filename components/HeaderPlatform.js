@@ -1,5 +1,6 @@
 import config from "@/config";
 import UserMenu from "./UserMenu";
+import Image from "next/image";
 
 const HeaderPlatform = ({
   userName,
@@ -14,7 +15,14 @@ const HeaderPlatform = ({
       <div className="mx-auto max-w-7xl px-6 py-4 flex items-center gap-6">
         {/* Logo + App name */}
         <div className="flex items-center gap-3">
-          <img src="/icon.png" alt="Logo" className="w-10 h-10" />
+          <Image
+            src="/icon.png"
+            alt="Logo"
+            width={40}
+            height={40}
+            className="w-10 h-10"
+            priority
+          />
           <div className="text-base font-bold">{config.appName}</div>
         </div>
 
