@@ -1,10 +1,10 @@
 "use client";
 
-// Make this page dynamic to avoid prerendering errors with client-only hooks (useSearchParams)
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const messages = {
   Verification:
@@ -13,7 +13,7 @@ const messages = {
   Configuration: "Auth configuration error.",
 };
 
-export default function AuthErrorPage() {
+function AuthErrorContent() {
   const searchParams = useSearchParams();
   const code = searchParams.get("error") || "Unknown";
   const message = messages[code] || "Something went wrong. Please try again.";
@@ -35,5 +35,19 @@ export default function AuthErrorPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AuthErrorPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <AuthErrorContent />
+    </Suspense>
   );
 }
