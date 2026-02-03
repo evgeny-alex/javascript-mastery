@@ -11,8 +11,10 @@ export default async function UserInfoPage() {
     (session.user.hasAccess === true || session.user.hasAccess === "true") &&
     (session.user.status || "").toString().toLowerCase() === "paid";
 
+  const userLevel = session?.user?.variantName || "Basic"; // Get user level from variantName
+
   if (hasPaidAccess) {
-    return <TrainingPlatformShell session={session} />;
+    return <TrainingPlatformShell session={session} userLevel={userLevel} />;
   }
 
   return (

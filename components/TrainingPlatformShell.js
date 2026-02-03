@@ -29,7 +29,7 @@ const findLessonByCode = (mods, code) => {
 const getFlatLessons = (mods) =>
   mods.flatMap((m) => m.lessons.map((l) => ({ ...l, moduleTitle: m.title })));
 
-const TrainingPlatformShell = ({ session }) => {
+const TrainingPlatformShell = ({ session, userLevel }) => {
   const userName = session?.user?.name || session?.user?.email || "Student";
   const userId = session?.user?.email || session?.user?.id || "anon";
   const [modules, setModules] = useState(modulesData);
@@ -258,12 +258,13 @@ const TrainingPlatformShell = ({ session }) => {
               modules={modules}
               onLessonSelect={handleLessonSelect}
               userId={userId}
+              userLevel={userLevel} // Pass userLevel to ModuleList
             />
           </aside>
           <LessonComponent
             lesson={selectedLesson}
             onLessonComplete={handleLessonComplete}
-            onNavigate={handleNavigate} // <- new prop
+            onNavigate={handleNavigate}
           />
         </div>
       </div>
