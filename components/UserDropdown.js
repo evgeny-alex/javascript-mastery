@@ -1,4 +1,15 @@
+"use client";
+import { signOut } from "next-auth/react";
+
 const UserDropdown = () => {
+  const handleLogout = async () => {
+    try {
+      await signOut({ callbackUrl: "/" });
+    } catch (e) {
+      console.error("Logout failed:", e);
+    }
+  };
+
   return (
     <div className="absolute right-0 mt-3 w-56 rounded-xl border border-base-300 bg-base-100 shadow-lg z-50">
       <div className="p-2 space-y-1">
@@ -19,7 +30,10 @@ const UserDropdown = () => {
         <div className="my-1 h-px bg-base-300" />
 
         {/* Logout */}
-        <button className="flex w-full items-center gap-3 px-3 py-2 rounded-lg text-error hover:bg-error/10">
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center gap-3 px-3 py-2 rounded-lg text-error hover:bg-error/10"
+        >
           Logout
         </button>
       </div>

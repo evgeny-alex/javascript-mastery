@@ -27,7 +27,7 @@ export default function AuthErrorPage() {
             className="btn btn-info"
             title="Back to login"
           >
-            Back to login
+            Back to login page 
           </Link>
         </div>
       </div>
