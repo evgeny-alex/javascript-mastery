@@ -1,5 +1,8 @@
 "use client";
 
+// Make this page dynamic to avoid prerendering errors with client-only hooks (useSearchParams)
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
@@ -27,7 +30,7 @@ export default function AuthErrorPage() {
             className="btn btn-info"
             title="Back to login"
           >
-            Back to login page 
+            Back to login page
           </Link>
         </div>
       </div>
