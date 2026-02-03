@@ -104,8 +104,9 @@ const TrainingPlatformShell = ({ session }) => {
       const res = await apiClient.get("/user/progress");
       const completedLessons = res?.completedLessons || [];
       completed = completedLessons.includes(lesson.lesson_code);
-    } catch (_) {
-      // fallback to local value if request fails
+    } catch (error) {
+      console.error(error);
+      // ignore parse errors
     }
 
     setSelectedLesson({

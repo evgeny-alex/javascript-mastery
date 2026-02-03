@@ -17,7 +17,8 @@ const ModuleList = ({ modules, onLessonSelect, userId }) => {
           .filter((i) => i !== -1);
         setExpandedModules(indices);
       }
-    } catch (_) {
+    } catch (error) {
+      console.error(error);
       // ignore parse errors
     }
   }, [modules, userId]);
@@ -34,8 +35,9 @@ const ModuleList = ({ modules, onLessonSelect, userId }) => {
         const titles = next.map((i) => modules[i]?.title).filter(Boolean);
         try {
           localStorage.setItem(key, JSON.stringify(titles));
-        } catch (_) {
-          // ignore storage errors
+        } catch (error) {
+          console.error(error);
+          // ignore parse errors
         }
       }
 
