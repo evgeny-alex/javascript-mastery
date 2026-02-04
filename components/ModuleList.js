@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import LessonItem from "./LessonItem";
+import Link from "next/link";
 
 const ModuleList = ({
   modules,
@@ -9,6 +10,7 @@ const ModuleList = ({
   lastLessonCode,
 }) => {
   const [expandedModules, setExpandedModules] = useState([]);
+  const [hoverIndex, setHoverIndex] = useState(null);
 
   // Determine if a module is locked based on user level
   const isModuleLocked = (index) => {
@@ -81,15 +83,21 @@ const ModuleList = ({
       {modules.map((module, index) => {
         const locked = isModuleLocked(index);
         return (
-          <div key={index} className="space-y-2">
+          <div key={index} className="space-y-2 relative">
+            {" "}
+            {/* relative for tooltip */}
             {/* Module Header */}
             <div
-              className={`font-semibold text-base-content/80 cursor-pointer flex items-center justify-between ${
-                locked ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`font-semibold text-base-content/80 cursor-pointer flex items-center justify-between relative`}
               onClick={() => toggleModule(index)}
+              onMouseEnter={() => setHoverIndex(index)}
+              onMouseLeave={() => setHoverIndex(null)}
             >
-              <span className="flex items-center gap-2">
+              <span
+                className={`flex items-center gap-2 ${
+                  locked ? "opacity-50" : ""
+                }`}
+              >
                 {locked && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -113,8 +121,8 @@ const ModuleList = ({
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 className={`w-5 h-5 transition-transform ${
-                  expandedModules.includes(index) ? "rotate-180" : ""
-                }`}
+                  locked ? "opacity-50" : ""
+                } ${expandedModules.includes(index) ? "rotate-180" : ""}`}
               >
                 <path
                   fillRule="evenodd"
@@ -122,8 +130,16 @@ const ModuleList = ({
                   clipRule="evenodd"
                 />
               </svg>
+              {/* Hover tooltip for locked modules */}
+              {locked && hoverIndex === index && (
+                <div className="absolute right-0 bottom-full mb-2 w-64 bg-base-100 border border-base-300 rounded-md shadow-md p-3 z-20">
+                  <div className="text-sm text-base-content/80">
+                    This module is part of Pro / Bootcamp. Unlock all modules
+                    and projects by upgrading your plan.
+                  </div>
+                </div>
+              )}
             </div>
-
             {/* Lessons */}
             {expandedModules.includes(index) && !locked && (
               <div className="ml-1 space-y-2">
