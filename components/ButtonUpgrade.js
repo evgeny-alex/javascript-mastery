@@ -10,10 +10,8 @@ function loadPaddleScript() {
   return new Promise((resolve, reject) => {
     if (typeof window === "undefined") return reject(new Error("No window"));
 
-    // если уже инициализирован
     if (window.Paddle) return resolve(window.Paddle);
 
-    // если скрипт уже добавлен
     const existing = document.getElementById("paddle-js-v2");
     if (existing) {
       existing.addEventListener("load", () => resolve(window.Paddle));
@@ -32,12 +30,13 @@ function loadPaddleScript() {
 }
 
 export default function ButtonUpgrade({
-  priceId, // Paddle priceId (product id)
+  priceId,
   quantity = 1,
   email,
   customerAuthToken,
   customData,
   planName,
+  variantCode,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -56,12 +55,10 @@ export default function ButtonUpgrade({
 
         const Paddle = await loadPaddleScript();
 
-        // выставляем окружение (sandbox/production) до инициализации
         if (Paddle?.Environment?.set) {
           Paddle.Environment.set(PADDLE_ENV);
         }
 
-        // Initialize можно вызывать только один раз на странице
         if (!window.__paddleInitialized) {
           Paddle.Initialize({
             token: PADDLE_TOKEN,
@@ -72,8 +69,17 @@ export default function ButtonUpgrade({
                 setIsLoading(false);
               }
               if (event.name === "checkout.completed") {
-                // После успешной оплаты — переход на dashboard user
-                window.location.href = `/dashboard/user`;
+                // Notify other parts of the app about the upgrade
+                try {
+                  const level = variantCode || "pro";
+                  const payload = { level, ts: Date.now() };
+                  localStorage.setItem("jmastery_upgrade", JSON.stringify(payload));
+                  window.dispatchEvent(new CustomEvent("jmastery:upgrade", { detail: payload }));
+                } catch (e) {
+                  console.error("Failed to broadcast upgrade:", e);
+                }
+                // Redirect after successful payment
+                window.location.href = `/dashboard/success-page`;
               }
             },
           });
@@ -100,33 +106,32 @@ export default function ButtonUpgrade({
       if (!isReady) throw new Error("Paddle is not ready yet");
       if (!priceId) throw new Error("Missing priceId");
 
-      // Сброс состояния при закрытии
       window.__activeCheckoutReset = () => setIsLoading(false);
 
       window.Paddle.Checkout.open({
         items,
-
-        // Prefill (опционально)
         customer: email ? { email } : undefined,
-
-        // Если хочешь показывать сохранённые методы оплаты — нужен customerAuthToken
         customerAuthToken: customerAuthToken || undefined,
-
-        // Твои метаданные (UTM, userId и т.п.)
         customData: customData || undefined,
-
-        // Настройки оверлея
         settings: {
           displayMode: "overlay",
           theme: "light",
           locale: "en",
         },
-
         successCallback: (data) => {
           console.log("Payment successful:", data);
           setIsLoading(false);
-          // Редирект после успешной оплаты
-          window.location.href = `/dashboard/user`;
+          // Notify other parts of the app about the upgrade
+          try {
+            const level = variantCode || "pro";
+            const payload = { level, ts: Date.now() };
+            localStorage.setItem("jmastery_upgrade", JSON.stringify(payload));
+            window.dispatchEvent(new CustomEvent("jmastery:upgrade", { detail: payload }));
+          } catch (e) {
+            console.error("Failed to broadcast upgrade:", e);
+          }
+          // Redirect after successful payment
+          window.location.href = `/dashboard/success-page`;
         },
         closeCallback: () => {
           console.log("Payment canceled");
