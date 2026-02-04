@@ -259,6 +259,7 @@ const TrainingPlatformShell = ({ session, userLevel }) => {
               onLessonSelect={handleLessonSelect}
               userId={userId}
               userLevel={userLevel} // Pass userLevel to ModuleList
+              lastLessonCode={lastLessonCode}
             />
           </aside>
           <LessonComponent

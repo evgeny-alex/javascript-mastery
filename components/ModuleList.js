@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import LessonItem from "./LessonItem";
 
-const ModuleList = ({ modules, onLessonSelect, userId, userLevel }) => {
+const ModuleList = ({
+  modules,
+  onLessonSelect,
+  userId,
+  userLevel,
+  lastLessonCode,
+}) => {
   const [expandedModules, setExpandedModules] = useState([]);
 
   // Determine if a module is locked based on user level
@@ -18,18 +24,33 @@ const ModuleList = ({ modules, onLessonSelect, userId, userLevel }) => {
     const key = `jmastery_expanded_${userId || "anon"}`;
     try {
       const saved = localStorage.getItem(key);
+      let indices = [];
       if (saved) {
         const titles = JSON.parse(saved);
-        const indices = titles
+        indices = titles
           .map((t) => modules.findIndex((m) => m.title === t))
           .filter((i) => i !== -1);
+      }
+
+      // If we have a lastLessonCode from DB, ensure its module is included (override/add)
+      if (lastLessonCode) {
+        const moduleIndex = modules.findIndex((m) =>
+          m.lessons.some((l) => l.lesson_code === lastLessonCode),
+        );
+        if (moduleIndex !== -1 && !isModuleLocked(moduleIndex)) {
+          if (!indices.includes(moduleIndex))
+            indices = [...indices, moduleIndex];
+        }
+      }
+
+      if (indices.length > 0) {
         setExpandedModules(indices);
       }
     } catch (error) {
       console.error(error);
       // Ignore parse errors
     }
-  }, [modules, userId]);
+  }, [modules, userId, lastLessonCode]);
 
   const toggleModule = (index) => {
     if (isModuleLocked(index)) return; // Prevent expanding locked modules
