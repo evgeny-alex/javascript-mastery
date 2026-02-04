@@ -29,6 +29,16 @@ const UserDropdown = () => {
 
         <div className="my-1 h-px bg-base-300" />
 
+        {/* Upgrade */}
+        <a
+          href="/dashboard/upgrade"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-accent hover:bg-accent/10"
+        >
+          Upgrade
+        </a>
+
+        <div className="my-1 h-px bg-base-300" />
+
         {/* Logout */}
         <button
           onClick={handleLogout}
