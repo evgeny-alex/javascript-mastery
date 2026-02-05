@@ -7,53 +7,29 @@ const lessonContent = {
         Your browser does not support the video tag.
       </video>
     </div>
-    <p>
-      JavaScript is the language that brings the web to life.
-      It allows websites to react to user actions, update content dynamically,
-      and communicate with servers in real time.
-    </p>
 
-    <p>
-      Today JavaScript runs not only in the browser, but also on servers,
-      mobile apps, desktop apps, and even IoT devices.
-      If you want to build modern web applications — JavaScript is essential.
-    </p>
+    <h4>1) First JavaScript code</h4>
+    <pre class="text-sm font-mono bg-base-200 p-4 rounded-md overflow-x-auto"><code class="language-js">console.log("Hello, JavaScript!");</code></pre>
 
-    <h3>Where JavaScript runs</h3>
-    <ul>
-      <li><strong>Browser</strong> — adds interactivity to websites</li>
-      <li><strong>Node.js</strong> — allows JavaScript to run on the server</li>
-    </ul>
+    <h4>2) Multiple outputs</h4>
+    <pre class="text-sm font-mono bg-base-200 p-4 rounded-md overflow-x-auto"><code class="language-js">console.log("Welcome to JavaScript Mastery");
+console.log("This is your first lesson");</code></pre>
 
-    <h3>Quick example</h3>
-    <p>
-      The simplest JavaScript program looks like this:
-    </p>
-    <pre><code>console.log("Hello, JavaScript");</code></pre>
+    <h4>3) JavaScript executes line by line</h4>
+    <pre class="text-sm font-mono bg-base-200 p-4 rounded-md overflow-x-auto"><code class="language-js">console.log("Step 1");
+console.log("Step 2");
+console.log("Step 3");</code></pre>
 
-    <p>
-      This line prints text to the console and is often the first thing developers try
-      when learning JavaScript.
-    </p>
-
-    <h3>JavaScript ecosystem</h3>
-    <ul>
-      <li>Frameworks and libraries (React, Vue, etc.)</li>
-      <li>Package managers (npm)</li>
-      <li>Tools for building, testing, and deploying apps</li>
-    </ul>
-
-    <h3>How this course works</h3>
-    <ul>
-      <li>Short lessons focused on one concept at a time</li>
-      <li>Hands-on examples and real code</li>
-      <li>Practice tasks to reinforce learning</li>
-    </ul>
-
-    <p>
-      By the end of this course, you will understand JavaScript fundamentals
-      and be ready to build real applications.
-    </p>
+    <!-- Key insights (highlighted, bulleted) -->
+    <div class="bg-accent/10 border-l-4 border-accent p-4 rounded-md mt-6">
+      <h3 class="text-lg font-semibold text-accent mb-2">Key insights</h3>
+      <ul class="list-disc pl-6 space-y-2 text-base-content/90">
+        <li>JavaScript is a programming language used to build interactive applications and dynamic websites.</li>
+        <li>It runs not only in browsers, but also on servers (Node.js), mobile apps, and desktop software.</li>
+        <li>In this module, you’ll learn the fundamentals: how JavaScript handles data, calculations, and decision-making.</li>
+        <li>Programming starts with simple steps — writing code, running it, and understanding how it executes line by line.</li>
+      </ul>
+    </div>
   `,
 };
 
